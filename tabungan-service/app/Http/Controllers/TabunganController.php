@@ -67,4 +67,42 @@ class TabunganController extends Controller
             'saldo' => $masuk - $keluar
         ], 200);
     }
+
+    // 4. Update/Edit Transaksi (UPDATE)
+    public function update(Request $request, $id)
+    {
+        $tabungan = Tabungan::find($id);
+
+        if (!$tabungan) {
+            return response()->json(['message' => 'Data tidak ditemukan'], 404);
+        }
+
+        // Validasi input edit
+        $request->validate([
+            'nominal' => 'numeric|min:1000',
+            'jenis_transaksi' => 'in:masuk,keluar',
+            'keterangan' => 'string'
+        ]);
+
+        $tabungan->update($request->all());
+
+        return response()->json([
+            'message' => 'Data berhasil diubah',
+            'data' => $tabungan
+        ], 200);
+    }
+
+    // 4. Hapus Transaksi (DELETE)
+    public function destroy($id)
+    {
+        $tabungan = Tabungan::find($id);
+
+        if (!$tabungan) {
+            return response()->json(['message' => 'Data tidak ditemukan'], 404);
+        }
+
+        $tabungan->delete();
+        
+        return response()->json(['message' => 'Data berhasil dihapus'], 200);
+    }
 }
