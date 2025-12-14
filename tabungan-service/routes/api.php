@@ -16,3 +16,7 @@ Route::post('/tabungan', [TabunganController::class, 'store']);
 
 // Route untuk cek saldo siswa
 Route::get('/saldo/{id_siswa}', [TabunganController::class, 'cekSaldo']);
+
+Route::put('/tabungan/{id}', [TabunganController::class, 'update']);
+
+Route::delete('/tabungan/{id}', [TabunganController::class, 'destroy']);
