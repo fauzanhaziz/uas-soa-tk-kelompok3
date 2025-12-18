@@ -15,5 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->append(\App\Http\Middleware\CorrelationIdMiddleware::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        // API service - selalu return JSON untuk error
+        $exceptions->shouldRenderJsonWhen(function ($request) {
+            return $request->is('api/*') || $request->expectsJson();
+        });
     })->create();
